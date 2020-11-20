@@ -24,7 +24,7 @@ def gather_info():
 
     used_gpu_memory = np.array(list(map(int, re.findall("(\d+)", subprocess.getstatusoutput(
         'nvidia-smi -q -d Memory |grep -A4 GPU|grep Used')[1], flags=0))))
-    free_gpu_memory = np.squeeze(np.argwhere(used_gpu_memory < 10000)).tolist()
+    free_gpu_memory = np.squeeze(np.argwhere(used_gpu_memory < 100)).tolist()
     gpu_message = f"当前可能空闲的卡号为：{str(free_gpu_memory)}."
 
     content = f"{user_name}, 您好！ " \
@@ -56,4 +56,4 @@ if __name__ == "__main__":
         content, flag = gather_info()
         if flag:
             send_email(content, msg_from, passwd, msg_to)
-        time.sleep(10000)
+        time.sleep(10)
